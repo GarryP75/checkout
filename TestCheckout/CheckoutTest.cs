@@ -7,8 +7,20 @@ namespace TestCheckout
     public class CheckoutTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestBasketWithNoQualifyingDiscountProduct()
         {
+        }
+
+        [TestMethod]
+        public void TestBasketWithOneQualifyingDiscountProduct()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestBasketWithMultipleQualifyingDistcountProduct()
+        {
+
         }
     }
 }
