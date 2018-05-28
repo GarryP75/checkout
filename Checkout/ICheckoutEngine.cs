@@ -5,7 +5,7 @@
 
     public interface ICheckoutEngine
     {
-        decimal CalculateBasket(List<Product> products);
-        bool SaveBasket(List<Product> products);
+        decimal CalculateBasket(List<string> products);
+        bool SaveBasket(List<string> products);
     }
 }
