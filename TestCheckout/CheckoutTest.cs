@@ -73,14 +73,68 @@
 
             // assert
             Assert.AreEqual(expectedValue, result);
-
         }
+
+        [TestMethod]
+        public void TestBasketWithMultipleQualifyingDistcountProductWithMultipleSameProductOddNumber()
+        {
+            // arrange
+            decimal expectedValue = 3.05M;
+
+            var products = new List<string>();
+            products.Add("A99");
+            products.Add("B15");
+            products.Add("A99");
+            products.Add("A99");
+            products.Add("B15");
+            products.Add("A99");
+            products.Add("A99");
+            products.Add("B15");
+
+            var engine = new CheckoutEngine();
+
+            // act
+            var checkoutEngine = new CheckoutEngine();
+            var result = checkoutEngine.CalculateBasket(products);
+
+            // assert
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void TestBasketWithMultipleQualifyingDistcountProductWithMultipleSameProductEvenNumber()
+        {
+            // arrange
+            decimal expectedValue = 3.50M;
+
+            var products = new List<string>();
+            products.Add("A99");
+            products.Add("B15");
+            products.Add("A99");
+            products.Add("A99");
+            products.Add("B15");
+            products.Add("A99");
+            products.Add("A99");
+            products.Add("B15");
+            products.Add("A99");
+            products.Add("B15");
+
+            var engine = new CheckoutEngine();
+
+            // act
+            var checkoutEngine = new CheckoutEngine();
+            var result = checkoutEngine.CalculateBasket(products);
+
+            // assert
+            Assert.AreEqual(expectedValue, result);
+        }
+
 
         [TestMethod]
         public void TestBasketWithUnknownProduct()
         {
             // arrange
-            decimal expectedValue = decimal.MinValue;
+            decimal expectedValue = 0.00M;
 
             var products = new List<string>();
             products.Add("A88");

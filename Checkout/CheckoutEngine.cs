@@ -14,29 +14,76 @@
                 throw new ArgumentNullException("Products cannot be null or empty.");
             }
 
-            var basketTotal = decimal.MinValue;
-
+            var basketTotal = 0.00M;
             var availableProducts = from p in GetAvailableProducts()
-                        where products.Contains(p.Sku)
-                        select p;
+                                    where products.Contains(p.Sku)
+                                    select p;
 
             if (availableProducts.Any())
             {
-                basketTotal = availableProducts.Sum(d => d.Price);
+                var totalProductsPurchased = 0;
+                var purchasedProducts = new List<Product>();
+
+                foreach (var avProd in availableProducts)
+                {
+                    totalProductsPurchased = products.Count(p => p == avProd.Sku);
+                    for(var i=0; i< totalProductsPurchased; i++)
+                    {
+                        purchasedProducts.Add(avProd);
+                    }
+                    basketTotal += avProd.Price * totalProductsPurchased;
+                }
+                
+                basketTotal -= ApplyProductDiscount(purchasedProducts);
             }
-            
+
             return basketTotal;
         }
 
         public bool SaveBasket(List<string> products)
         {
             // Database code here !! call unit of work/ repo etc
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        private decimal ApplyProductDiscount(Product product)
+        private decimal ApplyProductDiscount(List<Product> products)
         {
-            throw new NotImplementedException();
+            var discount = 0.00M;
+            var discountProducts = GetProductDiscounts().Where(p => products.Any(p2 => p2.Id == p.ProductId));
+
+            if (discountProducts.Any())
+            {
+                foreach (var discProd in discountProducts)
+                {
+                    switch (discProd.Type)
+                    {
+                        case DiscountType.Quantity:
+                            discount += CalcProductDiscount(
+                                                    products.Where(p => p.Id == discProd.ProductId).Count(),
+                                                    discProd.DiscountAmount,
+                                                    discProd.Quantity);
+                            break;
+                    }
+                }
+            }
+            return discount;
+        }
+
+        private decimal CalcProductDiscount(int purchaseQty, decimal discountPrice, int discountQty)
+        {
+            var totalProductDiscount = 0.00M;
+            if (purchaseQty > 1)
+            {
+                var qualifyingProductPurchase = purchaseQty / discountQty;
+                var totalQualifyingProductPurchase = Math.Round((decimal)qualifyingProductPurchase, 1);
+                totalProductDiscount = totalQualifyingProductPurchase * discountPrice;
+            }
+            else
+            {
+                totalProductDiscount = discountPrice;
+            }
+
+            return totalProductDiscount;
         }
 
         // Hardcoded data for now, will come from database:
