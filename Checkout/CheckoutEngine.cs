@@ -72,15 +72,18 @@
         private decimal CalcProductDiscount(int purchaseQty, decimal discountPrice, int discountQty)
         {
             var totalProductDiscount = 0.00M;
-            if (purchaseQty > 1)
+            if(purchaseQty >= discountQty)
             {
-                var qualifyingProductPurchase = purchaseQty / discountQty;
-                var totalQualifyingProductPurchase = Math.Round((decimal)qualifyingProductPurchase, 1);
-                totalProductDiscount = totalQualifyingProductPurchase * discountPrice;
-            }
-            else
-            {
-                totalProductDiscount = discountPrice;
+                if (purchaseQty > 1)
+                {
+                    var qualifyingProductPurchase = purchaseQty / discountQty;
+                    var totalQualifyingProductPurchase = Math.Round((decimal)qualifyingProductPurchase, 1);
+                    totalProductDiscount = totalQualifyingProductPurchase * discountPrice;
+                }
+                else
+                {
+                    totalProductDiscount = discountPrice;
+                }
             }
 
             return totalProductDiscount;
@@ -91,7 +94,7 @@
             new Product { Id = 1, Sku = "A99", Description = "Apple", Price = 0.50M },
             new Product { Id = 2, Sku = "B15", Description = "Biscuits", Price = 0.30M },
             new Product { Id = 3, Sku = "C40", Description = "Coffee", Price = 1.80M },
-            new Product { Id = 1, Sku = "T23", Description = "Tissues", Price = 0.99M }};
+            new Product { Id = 4, Sku = "T23", Description = "Tissues", Price = 0.99M }};
 
         // Hardcoded data for now, will come from database:
         private List<ProductDiscount> GetProductDiscounts() => new List<ProductDiscount>{
