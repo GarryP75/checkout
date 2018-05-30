@@ -2,9 +2,9 @@
 Checkout example web.api with different clients (other clients coming soon)
 
 Run the soultion within visual studio, with project setup to run the console app and checkout api. Note no html will be displayed for the api (coming soon).
-One both the console app & web api are both running follow the instructions on the console app. 
+Once both the console app & web api are both running follow the instructions on the console app. 
 
-For example enter one of the sku code below followed by the enter key or enter calc after entering one or more sku codes followed by the enter key. 
+For example enter one of the sku code below followed by the enter key, or enter calc after entering one or more sku codes followed by the enter key. 
 
 This will calculate the basket total including any discounts. 
 
